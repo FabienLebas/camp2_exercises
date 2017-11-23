@@ -15,4 +15,4 @@ const last = digits[digits.length-1];
 const litteralDigits = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
 
 // use `join` to create, into the variable `allDigits`, a string like this : `zero - one ...`.
-const allDigits = litteralDigits.join('-');
+const allDigits = litteralDigits.join(' - ');
