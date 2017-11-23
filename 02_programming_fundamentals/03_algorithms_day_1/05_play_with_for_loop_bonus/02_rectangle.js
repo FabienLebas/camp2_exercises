@@ -12,3 +12,10 @@
 // **********
 // **********
 // ```
+for (let j=1; j<=10; j++){
+  let result = "";
+  for (let i=1; i<=10; i++){
+    result += "*";
+  }
+  console.log(result);
+}

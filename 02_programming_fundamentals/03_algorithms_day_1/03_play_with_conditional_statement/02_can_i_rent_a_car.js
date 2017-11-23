@@ -19,7 +19,7 @@ let canRentACar;
 // Your code here:
 const today = new Date();
 const currentYear = today.getFullYear();
-if (driverLicense === 'B' && currentYear - licenceIssued >= 3 && (numberOfAccident === 0 || bonus > 0.5)){
+if (driverLicense === "B" && currentYear - licenceIssued >= 3 && (numberOfAccident === 0 || bonus > 0.7)){
   canRentACar = true;
 }else{
   canRentACar = false;
