@@ -3,7 +3,12 @@
 // * Output: a string with each elements separated by the `separator`
 //
 // eg: join(["zero", "one", "two"], "-") => "zero - one - two"
+function joinArray(array, separator) {
+  return array.reduce((accumulator, currentValue) => accumulator + separator + currentValue);
+}
 
+const test = ["zero", "one", "two"];
+console.log(joinArray(test, "-"));
 
 // ⚠ Do not remove me ! It's for tests
 // eslint-disable-next-line
