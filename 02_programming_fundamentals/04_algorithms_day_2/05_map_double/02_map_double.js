@@ -11,6 +11,20 @@
 // WARNING: You're not allowed to use `Array.map`!
 
 // Your code here...
+function double(integer){
+  return 2 * integer;
+}
+
+function map(array, fn){
+  let result = [];
+  for (let i=0; i< array.length; i++){
+    result.push(fn(array[i]));
+  }
+  return result;
+}
+
+const test = [1,3,4];
+console.log(map(test, double));
 
 // Do not remove last lines, it is for tests
 // eslint-disable-next-line
