@@ -9,7 +9,15 @@
 
 function squareDigits(number) {
   // Your code here
+  let result = [];
+  for (let i=0; i<number.toString().length; i++){
+    result.push(number.toString()[i] * number.toString()[i]);
+  }
+  return parseInt(result.join(""));
 }
+
+console.log(squareDigits(9129));
+
 
 // Do not remove last lines, it is for tests
 // eslint-disable-next-line
