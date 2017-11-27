@@ -46,8 +46,25 @@ const MORSE_CODE = {
 
 function decodeMorse(morse) {
   // Your code here
+  let myHumanSentence ="";
+  let myMorseWord ="";
+  for (let i=0; i<morse.length; i++){
+    if(morse[i] === " "){
+      if(morse[i-1] === " " && morse[i-2] === " "){
+        myHumanSentence += " ";
+      } else if(morse[i-1] !== " "){
+        myHumanSentence += MORSE_CODE[myMorseWord];
+        myMorseWord = "";
+      }
+    } else {
+      myMorseWord += morse[i];
+    }
+  }
+  myHumanSentence += MORSE_CODE[myMorseWord];
+  return myHumanSentence;
 }
 
+console.log(decodeMorse(".... . -.--   .--- ..- -.. ."));
 // Do not remove last lines, it is for tests
 // eslint-disable-next-line
 module.exports = decodeMorse;
