@@ -64,7 +64,7 @@ function decodeMorse(morse) {
   return myHumanSentence;
 }
 
-console.log(decodeMorse(".... . -.--   .--- ..- -.. ."));
+console.log(decodeMorse(".   ----."));
 // Do not remove last lines, it is for tests
 // eslint-disable-next-line
 module.exports = decodeMorse;

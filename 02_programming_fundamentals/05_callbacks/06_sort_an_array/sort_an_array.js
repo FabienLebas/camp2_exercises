@@ -8,7 +8,25 @@
 
 function sort(unsortedArray) {
   // Your code here
+  let result = [];
+  for (let i=0; i<unsortedArray.length; i++){
+    if (result.length === 0){
+      result.push(unsortedArray[i]);
+    } else if (unsortedArray[i] >= result[result.length -1]){
+      result.push(unsortedArray[i]);
+    }
+    else {
+      let j=0;
+      while(unsortedArray[i] > result[j]){
+        j++;
+      }
+      result.splice(j,0,unsortedArray[i]);
+    }
+  }
+  return result;
 }
+
+
 
 // Do not remove last lines, it is for tests
 // eslint-disable-next-line
