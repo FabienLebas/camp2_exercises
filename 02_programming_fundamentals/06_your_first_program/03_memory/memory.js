@@ -70,6 +70,7 @@ function askCard(cards, cardsToDisplay, points, howManyCards){
       }
       console.log(secondCard);
       if(firstCard === secondCard){
+        clear();
         let newPoints = points + 1;
         if(card1[0] === "A"){
           cardsToDisplay[0][myColumn1 - 1] = firstCard;
@@ -91,6 +92,9 @@ function askCard(cards, cardsToDisplay, points, howManyCards){
           askCard(cards, cardsToDisplay, newPoints, howManyCards);
         }
       } else {
+        console.log(cardsToDisplay[0].join("   "));
+        console.log(cardsToDisplay[1].join("   "));
+        console.log("Nope, try again");
         askCard(cards, cardsToDisplay, points, howManyCards);
       }
     });
@@ -98,13 +102,14 @@ function askCard(cards, cardsToDisplay, points, howManyCards){
 }
 
 function start(){
+  clear();
   reader.question("We are going to play Memory. How many pairs of symbols do you want? (between 2 and 11) ", (number) => {
     let howManyCards = parseInt(number, 10);
     console.log(`OK let's start with ${number} pairs, so ${number * 2} cards.`);
     let cards = initialize(howManyCards, 2);//rendre dynamique le nombre de lignes
     let cardsToDisplay = initializeDisplay(howManyCards, 2);
-    console.log(cards[0].join("   "));//tricheur !
-    console.log(cards[1].join("   "));//tricheur !
+  //  console.log(cards[0].join("   "));//tricheur !
+  //  console.log(cards[1].join("   "));//tricheur !
     console.log(cardsToDisplay[0].join("   "));
     console.log(cardsToDisplay[1].join("   "));
     let myCard;
