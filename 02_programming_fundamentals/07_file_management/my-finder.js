@@ -17,7 +17,7 @@ function navigate(path){
             console.warn("Error while reading the file");
           } else {
             console.log(`\n${data}\nEnd of your file\n`);
-            getContent("./");
+            getContent(pathSplitted.join("/"));
           }
         });
       }else if (stats.isDirectory()){
@@ -26,7 +26,7 @@ function navigate(path){
       }else {
         console.warn("Not a file or a directory");
         console.log(`\n`);
-        getContent("../" + path);      }
+        getContent(pathSplitted.join("/"));      }
     }
   })
 }
