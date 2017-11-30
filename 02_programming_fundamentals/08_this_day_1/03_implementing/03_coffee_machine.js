@@ -10,7 +10,7 @@ const machine = {
   expresso: function(){
     if(this.litersOfCoffee - 0.08 >= 0){
       this.litersOfCoffee -= 0.08;
-      return true
+      return true;
     }
     return false;
   },
