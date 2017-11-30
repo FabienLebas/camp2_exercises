@@ -52,7 +52,7 @@ const orangeTree = {
     return 0;
   },
   die: function(age){
-    if((Math.random() > 0.9 && age >= 50) || age >= 100){
+    if((Math.random() > Math.exp(age - 100) && age >= 50) /* || age >= 100*/){
       this.alive = false;
       //console.log("RIP orange tree");
     }
