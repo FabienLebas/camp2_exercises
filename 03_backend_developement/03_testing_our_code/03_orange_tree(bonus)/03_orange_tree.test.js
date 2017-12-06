@@ -1,5 +1,9 @@
 const orangeTree = require("./03_orange_tree");
 
+beforeEach(() => {
+  orangeTree.seed();
+});
+
 test("Check tree starting state", () => {
   expect(orangeTree.alive).toBe(true);
   expect(orangeTree.height).toBe(0);
@@ -35,7 +39,6 @@ test("Seed should reset values", () => {
 });
 
 test("ageOneYear just after birth", () => {
-  orangeTree.alive = true;
   orangeTree.ageOneYear();
   expect(orangeTree.age).toBe(1);
   expect(orangeTree.height).toBe(25);
@@ -44,7 +47,6 @@ test("ageOneYear just after birth", () => {
 });
 
 test("Test 4 years old", () =>{
-  orangeTree.seed();
   for(let i = 1; i <= 4; i++){
     orangeTree.ageOneYear();
   }
@@ -54,7 +56,6 @@ test("Test 4 years old", () =>{
 });
 
 test("Test 5 years old", () =>{
-  orangeTree.seed();
   for(let i = 1; i <= 5; i++){
     orangeTree.ageOneYear();
   }
@@ -64,7 +65,6 @@ test("Test 5 years old", () =>{
 });
 
 test("Test 8 years old", () =>{
-  orangeTree.seed();
   for(let i = 1; i <= 8; i++){
     orangeTree.ageOneYear();
   }
@@ -74,7 +74,6 @@ test("Test 8 years old", () =>{
 });
 
 test("Test 10 years old", () =>{
-  orangeTree.seed();
   for(let i = 1; i <= 10; i++){
     orangeTree.ageOneYear();
   }
@@ -84,7 +83,6 @@ test("Test 10 years old", () =>{
 });
 
 test("Test 20 years old", () =>{
-  orangeTree.seed();
   for(let i = 1; i <= 20; i++){
     orangeTree.ageOneYear();
   }
@@ -94,7 +92,6 @@ test("Test 20 years old", () =>{
 });
 
 test("Test 40 years old", () =>{
-  orangeTree.seed();
   for(let i = 1; i <= 40; i++){
     orangeTree.ageOneYear();
   }
@@ -104,7 +101,6 @@ test("Test 40 years old", () =>{
 });
 
 test("You should not die before 50, but you should before 100", () =>{
-  orangeTree.seed();
   for(let i = 1; i <= 50; i++){
     orangeTree.ageOneYear();
   }
