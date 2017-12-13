@@ -1,0 +1,20 @@
+{
+  "name": "08_09_commerce_api_project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FabienLebas/camp2_exercises/tree/develop/03_backend_developement/08_09_commerce_API_project"
+  },
+  "author": "Fabien Lebas",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "pg": "^7.4.0",
+    "request": "^2.83.0"
+  }
+}
