@@ -94,7 +94,7 @@ function getDataProducts(){
     }
   );
 }
-//getDataProducts();
+getDataCategories();
 
 
 function getLengthAwaited(table){
@@ -114,4 +114,4 @@ function getLengthAwaited(table){
   );
 }
 
-getLengthAwaited("products");
+//getLengthAwaited("products");
