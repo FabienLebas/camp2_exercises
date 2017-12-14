@@ -103,6 +103,32 @@ app.get(
   }
 );
 
+app.get(
+  "/categories/:id/products",
+  function(request, result){
+    const table = request.originalUrl.slice(1);
+    const id = request.params.id;
+    getProductsFromACategory(id, table, result);
+  }
+);
+
+function getProductsFromACategory(category, table, result){
+  const client = new PG.Client();
+  client.connect();
+  client.query(
+    "SELECT products.id, products.decathlon_id, products.title, products.description, products.brand_id, products.min_price, products.max_price, products.crossed_price, products.percent_reduction, products.image_path, products.rating FROM products INNER JOIN categories_products ON (categories_products.product_id = products.id) INNER JOIN categories ON (categories.id = categories_products.category_id) WHERE categories.id = $1::text",
+    [category],
+    function(error, resultQuery){
+      if(error){
+        console.warn("Query error: " + error);
+      } else {
+        result.send(resultQuery.rows);
+        client.end();
+      }
+    }
+  );
+}
+
 function getDataOneElementCategories(id, table, result){
   const client = new PG.Client();
   client.connect();
@@ -128,6 +154,9 @@ app.get(
     getDataOneElementCategories(id, table, result);
   }
 );
+
+
+
 
 /*
 function searchMoviesByTitle(title, callback) {

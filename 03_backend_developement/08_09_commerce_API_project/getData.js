@@ -94,8 +94,60 @@ function getDataProducts(){
     }
   );
 }
-getDataCategories();
+//getDataCategories();
 
+function insertIntoJoinTable(values){
+  pool.query(
+    "INSERT INTO categories_products (category_id, product_id) VALUES ($1::text, $2::text)",
+    values,
+    function(error, result) {
+      if (error) {
+        console.warn(error);
+      }
+    }
+  );
+}
+
+function getProductsFromACategory(category_id, index){
+  request(
+    {
+      url: "https://decath-product-api.herokuapp.com/categories/" + category_id + "/products",
+      method: "GET",
+    },
+    function(error, response, result) {
+      if (error){
+        console.warn("Error while importing " + category_id + error);
+      } else {
+        const json = JSON.parse(result);
+        json.forEach((object) => {
+          insertIntoJoinTable([category_id, object.id]);
+        });
+        getCategoriesArray(getProductsFromACategory, index + 1);
+
+      }
+    }
+  );
+}
+
+function getCategoriesArray(callback, index){
+  pool.query(
+    "SELECT id FROM categories",
+    function(error, result){
+      if (error){
+        console.warn(error);
+      } else {
+        const resultTable = result.rows.map((object) => object.id);
+        console.log(`There are ${resultTable.length} categories`);
+        if(index < resultTable.length){
+          console.log(`I am launching index ${index}`);
+          callback(resultTable[index], index);
+        }
+      }
+    }
+  );
+}
+
+getCategoriesArray(getProductsFromACategory, 0);
 
 function getLengthAwaited(table){
   request(
