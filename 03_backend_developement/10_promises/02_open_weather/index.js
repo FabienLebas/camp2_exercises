@@ -27,7 +27,7 @@ function getCurrentWeatherByCoordinates(lat, lon){
   ;
 }
 
-getCurrentWeatherByCoordinates(32.661343, 51.680374);
+//getCurrentWeatherByCoordinates(32.661343, 51.680374);
 
 module.exports = {
   getCurrentWeatherByCityName: getCurrentWeatherByCityName,
