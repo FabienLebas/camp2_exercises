@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8" />
+<title>Exo 3</title>
+<style>
+body{
+  padding:30px;
+}
+.pokemon{
+   background-image: url("charmander.png");
+   background-size: cover;
+   height: 200px;
+   width: 200px;
+}
+@media (max-width: 1200px){
+   .pokemon{
+       background-image: url("charmeleon.png");
+   }
+}
+@media (max-width: 800px){
+   .pokemon{
+       background-image: url("charizard.png");
+   }
+}
+</style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+</head>
+<body>
+  <h5>Welcome to Charmander, Charmeleon, Charizard evolution</h5>
+  <div class="pokemon"></div>
+</body>

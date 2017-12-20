@@ -7,6 +7,7 @@
       integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
       crossorigin="anonymous"
     />
+    <title>Exo 2</title>
   </head>
   <body>
     <nav class="navbar navbar-dark bg-primary">
@@ -34,7 +35,24 @@
     </div>
     <script src="./departments.js"></script>
     <script>
-      // Your code here
+    function displayDepartments(array){
+      document.getElementById("department-list").innerHTML = "";
+      array.forEach(department => {
+        document.getElementById("department-list").innerHTML += "<li>" + department + "</li>";
+        }
+      );
+    }
+
+    const myInput = document.querySelector("#search-department");
+    if(myInput.innerHTML === ""){
+      displayDepartments(DEPARTMENTS);
+    }
+    myInput.addEventListener("input", function() {
+      const filteredDepartments = DEPARTMENTS.filter(department => department.includes(this.value.toUpperCase()));
+      displayDepartments(filteredDepartments);
+    });
+
+
     </script>
   </body>
 </html>

@@ -7,6 +7,7 @@
       integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
       crossorigin="anonymous"
     />
+    <title>Exo 1</title>
   </head>
   <body>
     <nav class="navbar navbar-dark bg-primary">
@@ -19,7 +20,6 @@
           <h1>List of french departments</h1>
 
           <ul id="department-list" class="list-group">
-            <!-- Your list will end up here -->
           </ul>
 
         </div>
@@ -27,8 +27,10 @@
     </div>
     <script src="./departments.js"></script>
     <script>
-      // Your code here
-      // the departments are accessible in a global variable named DEPARTMENTS
+    DEPARTMENTS.forEach(department => {
+      document.getElementById("department-list").innerHTML += "<li>" + department + "</li>";
+      }
+    );
     </script>
   </body>
 </html>
