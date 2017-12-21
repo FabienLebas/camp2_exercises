@@ -1,1 +1,0 @@
-../03_backend_developement/01_HTTP/.eslintrc.js

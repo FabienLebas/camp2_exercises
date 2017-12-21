@@ -1,0 +1,24 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+<div class="container row">
+  <div class="col-6">
+    <a href="https://www.decathlon.fr/media/{{productInfos.image_path}}">
+      <img class="card-img-top" src="https://www.decathlon.fr/media/{{productInfos.image_path}}" alt="Card image cap">
+    </a>
+  </div>
+  <div class="col-6">
+    <div class="card"">
+      <div class="card-body">
+        <h4 class="card-title">{{productInfos.title}}</h4>
+        <h3>{{productInfos.min_price}}€</h3>
+        <p>{{productInfos.rating}}/5</p>
+        <p class="card-text">Conçu pour : {{productInfos.description}}</p>
+        <a href="#" class="btn btn-primary">Ajouter au panier</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

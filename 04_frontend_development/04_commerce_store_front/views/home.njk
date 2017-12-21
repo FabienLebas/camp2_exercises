@@ -1,0 +1,24 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+  <table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col" class="bg-secondary text-white">Categories</th>
+    </tr>
+  </thead>
+  <tbody>
+      {% for object in categories %}
+      <tr><td scope="row" id="{{object.id}}">{{object.label}}</td></tr>
+      {% endfor %}
+  </tbody>
+</table>
+<script>
+  {% for object in categories %}
+  document.getElementById("{{object.id}}").addEventListener("click", () => {
+    window.location = "./categories/{{object.id}}";
+    console.log("{{object.id}}");
+  });
+  {% endfor %}
+</script>
+{% endblock %}
