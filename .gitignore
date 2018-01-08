@@ -1,3 +1,7 @@
 node_modules
 /*.result
 /*.weather
+/05_tricount_project/filelathune
+05_tricount_project/filelathune
+05_tricount_project/filelathune/
+05_tricount_project/db_filelathune.sql

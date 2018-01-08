@@ -9,15 +9,7 @@
     }
   </style>
 </head>
-<table class="table table-hover">
-<thead>
-  <tr>
-    <th scope="col" class="bg-secondary text-white">Products</th>
-  </tr>
-</thead>
-<tbody>
   <div class="row">
-
     {% for object in products %}
       <div class="col-md-6 col-lg-3">
         <div class="card rounded" style="width: 20rem;" id="{{object.id}}">
@@ -27,14 +19,11 @@
       </div>
     {% endfor %}
   </div>
-
-</tbody>
-</table>
 <script>
   {% for object in products %}
     document.getElementById("{{object.id}}").addEventListener("click", () => {
-    window.location = "http://localhost:3000/products/{{object.id}}";
-  });
+      window.location = "http://localhost:3000/products/{{object.id}}";
+    });
   {% endfor %}
 </script>
 {% endblock %}

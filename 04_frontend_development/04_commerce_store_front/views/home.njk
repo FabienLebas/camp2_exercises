@@ -17,7 +17,6 @@
   {% for object in categories %}
   document.getElementById("{{object.id}}").addEventListener("click", () => {
     window.location = "./categories/{{object.id}}";
-    console.log("{{object.id}}");
   });
   {% endfor %}
 </script>
