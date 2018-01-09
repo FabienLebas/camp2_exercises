@@ -1,4 +1,4 @@
-function go(options) {
+function go(options = {speed: 4, enable : {hyperdrive : false, frobnifier : true} }) {
   let {
     speed = 4,
     enable: { hyperdrive = false, frobnifier = true}
