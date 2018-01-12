@@ -5,7 +5,7 @@ import DisplayRow from './DisplayRow.js';
 
 function GameBoard(props){
   return Object.keys(props.board).map(rowName => (
-      <tr>
+      <tr key={rowName}>
         <DisplayRow
           board={props.board}
           handleInput={props.handleInput}

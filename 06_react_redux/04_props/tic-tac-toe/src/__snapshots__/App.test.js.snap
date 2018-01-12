@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should look the same 1`] = `
+<div
+  className="App jumbotron"
+>
+  <nav
+    className="navbar fixed-top navbar-dark bg-dark"
+  >
+    <span
+      className="App-title navbar-brand mb-0 h1"
+    >
+      Tic Tac Toe
+    </span>
+    <span>
+      <button
+        className="btn btn-success"
+        onClick={[Function]}
+      >
+        Restart
+      </button>
+    </span>
+  </nav>
+  <table>
+    <tbody>
+      <tr>
+        <td
+          onClick={[Function]}
+        >
+          _
+        </td>
+        <td
+          onClick={[Function]}
+        >
+          _
+        </td>
+        <td
+          onClick={[Function]}
+        >
+          _
+        </td>
+      </tr>
+      <tr>
+        <td
+          onClick={[Function]}
+        >
+          _
+        </td>
+        <td
+          onClick={[Function]}
+        >
+          _
+        </td>
+        <td
+          onClick={[Function]}
+        >
+          _
+        </td>
+      </tr>
+      <tr>
+        <td
+          onClick={[Function]}
+        >
+          _
+        </td>
+        <td
+          onClick={[Function]}
+        >
+          _
+        </td>
+        <td
+          onClick={[Function]}
+        >
+          _
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;

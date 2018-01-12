@@ -44,11 +44,11 @@ class App extends Component {
   end(){
     if(this.state.victoryEnd){
       return (
-        <h1 className="end">Victoire !</h1>
+        <h1 className="end" key="end">Victoire !</h1>
       )
     } else if (this.state.drawEnd){
       return (
-        <h1>Match nul</h1>
+        <h1 key="end">Match nul</h1>
       )
     }
   }
@@ -124,7 +124,6 @@ class App extends Component {
       victoryEnd: false,
       drawEnd: false
     })
-    console.log(init)
   }
 
   render() {
@@ -132,10 +131,12 @@ class App extends Component {
       <div className="App jumbotron">
         <nav className="navbar fixed-top navbar-dark bg-dark">
           <span className="App-title navbar-brand mb-0 h1">Tic Tac Toe</span>
-          <span><button className="btn btn-success" onClick={() => {this.reload()}}>Recommencer</button></span>
-      </nav>
+          <span><button className="btn btn-success" onClick={() => {this.reload()}}>Restart</button></span>
+        </nav>
           <table>
-            <GameBoard board={this.state.game} handleInput={this.handleInput}/>
+            <tbody>
+              <GameBoard board={this.state.game} handleInput={this.handleInput}/>
+            </tbody>
           </table>
           {this.end()}
       </div>

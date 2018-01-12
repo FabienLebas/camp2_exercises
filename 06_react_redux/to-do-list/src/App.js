@@ -16,7 +16,7 @@ class App extends Component {
 
   displayTasks(tasks){
     return tasks.map(task => (
-      <tr>
+      <tr key={task.id}>
         <td>{task.id}</td>
         <td>{task.title}</td>
         <td><input type="checkbox" onClick = {() => this.remove(task.id)}></input></td>
@@ -55,13 +55,13 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to ToDoList</h1>
         </header>
-        <div class="jumbotron">
+        <div className="jumbotron">
           <form onSubmit={this.handleSubmit}>
-            <input type="text" class="form-control" placeholder="Libellé de la tâche" value={this.state.value} onChange={this.handleChange}></input>
-            <input type="submit" value="Ajouter une tâche" class="btn btn-success"></input>
+            <input type="text" className="form-control" placeholder="Libellé de la tâche" value={this.state.value} onChange={this.handleChange}></input>
+            <input type="submit" value="Ajouter une tâche" className="btn btn-success"></input>
           </form>
         </div>
-        <table class="table table-hover">
+        <table className="table table-hover">
           <thead>
             <tr>
               <td>Numéro</td>

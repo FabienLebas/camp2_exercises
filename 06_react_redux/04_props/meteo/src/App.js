@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import getWeatherForecastFromCoordinates from './forecast.js';
 import getCurrentWeatherFromCoordinates from './current.js'
