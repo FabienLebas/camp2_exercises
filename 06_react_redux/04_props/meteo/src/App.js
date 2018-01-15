@@ -4,6 +4,7 @@ import getWeatherForecastFromCoordinates from './forecast.js';
 import getCurrentWeatherFromCoordinates from './current.js'
 import getCityName from './google.js';
 import HoursInput from './HoursInput.js';
+import TempInput from './TempInput.js';
 
 const latitude = 50.6410414;
 const longitude = 3.1380786;
@@ -14,6 +15,8 @@ class App extends Component {
     this.state = {
       morning: "8",
       afternoon: "18",
+      tempmin: 3,
+      tempmax: 27,
       city: "Loading your location",
       current: "Loading current weather",
       forecast: "Loading weather forecast"
@@ -24,6 +27,8 @@ class App extends Component {
     this.setState({
       morning: input,
       afternoon: this.state.afternoon,
+      tempmin: this.state.tempmin,
+      tempmax: this.state.tempmax,
       city: this.state.city,
       current: this.state.current,
       forecast: this.state.forecast
@@ -34,6 +39,32 @@ class App extends Component {
     this.setState({
       morning: this.state.morning,
       afternoon: input,
+      tempmin: this.state.tempmin,
+      tempmax: this.state.tempmax,
+      city: this.state.city,
+      current: this.state.current,
+      forecast: this.state.forecast
+    });
+  }
+
+  handleInputTempMin = (input) => {
+    this.setState({
+      morning: this.state.morning,
+      afternoon: this.state.afternoon,
+      tempmin: input,
+      tempmax:this.state.tempmax,
+      city: this.state.city,
+      current: this.state.current,
+      forecast: this.state.forecast
+    });
+  }
+
+  handleInputTempMax = (input) => {
+    this.setState({
+      morning: this.state.morning,
+      afternoon: this.state.afternoon,
+      tempmin: this.state.tempmin,
+      tempmax:input,
       city: this.state.city,
       current: this.state.current,
       forecast: this.state.forecast
@@ -46,6 +77,8 @@ class App extends Component {
         this.setState({
           morning: this.state.morning,
           afternoon: this.state.afternoon,
+          tempmin: this.state.tempmin,
+          tempmax: this.state.tempmax,
           city: returnedCity.city,
           current: this.state.current,
           forecast: this.state.forecast
@@ -56,6 +89,8 @@ class App extends Component {
         this.setState({
           morning: this.state.morning,
           afternoon: this.state.afternoon,
+          tempmin: this.state.tempmin,
+          tempmax: this.state.tempmax,
           city: this.state.city,
           current: currentWeather,
           forecast: this.state.forecast
@@ -73,6 +108,8 @@ class App extends Component {
         this.setState({
           morning: this.state.morning,
           afternoon: this.state.afternoon,
+          tempmin: this.state.tempmin,
+          tempmax: this.state.tempmax,
           city: this.state.city,
           current: this.state.current,
           forecast: forecastResult
@@ -98,7 +135,7 @@ class App extends Component {
   displayRow(weekday_name, morningTemp, morningIcon, afternoonTemp, afternoonIcon, bikeIcon){
     return (
       <tr>
-        <td>{weekday_name}</td>
+        <td scope="row">{weekday_name}</td>
         <td><img class="card-img-top decisionImage" src={bikeIcon} alt="Bike image cap"/></td>
         <td>{morningTemp}°<br/>
             <img class="card-img-top icon" src={morningIcon} alt="Morning Weather icon" />
@@ -128,35 +165,44 @@ class App extends Component {
     return forecast;
   }
 
+  tomorrowOrToday(weekday){
+    const today = new Date();
+    const day = today.getDay();
+    const testDays = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
+    if(weekday === testDays[day]){
+      return "aujourd'hui";
+    } else if (weekday === testDays[day + 1]){
+      return "demain";
+    } else {
+    return weekday;
+    }
+  }
+
   displayForecast(){
     if(this.state.forecast === "Loading weather forecast"){
       return(
-        <tr><td>{this.state.forecast}</td></tr>
+        <tr><td scope="row">{this.state.forecast}</td></tr>
       )
     } else {
       let result = this.filterHours(this.state.forecast);
       result = this.removeLastDayIfNotFull(result);
       result = this.removeFirstDayIfNotFull(result);
-
-      console.log("displayForecast");
-      console.log(result.map(element => {
-        return {
-          time: element.FCTTIME.pretty,
-          temp: element.temp.metric
-        }
-      } ));
-
-
       return this.daysInside(result).map(dayNumber => {
         const currentDay = this.filter1Day(dayNumber, result);
-        return this.displayRow(currentDay[0].FCTTIME.weekday_name, currentDay[0].temp.metric, currentDay[0].icon_url, currentDay[1].temp.metric, currentDay[1].icon_url, this.decideIfBike(currentDay[0], currentDay[1]));
+        return this.displayRow(this.tomorrowOrToday(currentDay[0].FCTTIME.weekday_name), currentDay[0].temp.metric, currentDay[0].icon_url, currentDay[1].temp.metric, currentDay[1].icon_url, this.decideIfBike(currentDay[0], currentDay[1]));
       }
       )
     }
   }
 
   decideIfBike(dataMorning, dataAfternoon){
-    if(dataMorning.fctcode < 8 && dataAfternoon.fctcode < 8 && dataMorning.temp.metric >= 3 && dataAfternoon.temp.metric >=3){ //8 = user limit
+    if(dataMorning.fctcode < 8 &&
+       dataAfternoon.fctcode < 8 &&
+       dataMorning.temp.metric >= this.state.tempmin &&
+       dataAfternoon.temp.metric >=this.state.tempmin &&
+       dataMorning.temp.metric <= this.state.tempmax &&
+       dataAfternoon.temp.metric <= this.state.tempmax
+      ){
       return "http://www.atelierjespers.com/images/pharrell%20williams%20-%20velo%20bleu.jpg";
     }
     return "http://www2.mes-coloriages-preferes.biz/colorino/Images/Large/Vehicules-Voiture-MINI-110563.png";
@@ -164,21 +210,34 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to Météo</h1>
-        </header>
-        <h2>{this.state.city}</h2>
-        <h1>{this.state.current}°</h1>
-        <table>
-          <tr>
-            <td></td>
-            <td></td>
-            <HoursInput morning={this.state.morning} afternoon={this.state.afternoon} handleInputMorning={this.handleInputMorning} handleInputAfternoon={this.handleInputAfternoon}/>
-          </tr>
-          {this.displayForecast()}
-        </table>
+      <div className="App jumbotron jumbotron-fluid">
+        <nav className="navbar navbar-dark bg-info">
+          <a href="/whoweare.html">
+            <span className="navbar-brand mb-0 h1">Bike or Car? <span className="beta">beta</span></span>
+          </a>
+          <a href="/">
+            <i className="fa fa-refresh" aria-hidden="true"></i>
+          </a>
+        </nav>
+        <div className="container">
+          <h2 className="display-5 text-center font-weight-normal">{this.state.city}</h2>
+          <p className="text-center">description, vent x km/h de ...</p>
+          <h1 className="display-5 text-center font-weight-normal">{this.state.current}°</h1>
+        </div>
+        <div className="container">
+          <table className="table">
+            <thead>
+              <tr>
+                <td></td>
+                <TempInput min={this.state.tempmin} max={this.state.tempmax} handleInputTempMin={this.handleInputTempMin} handleInputTempMax={this.handleInputTempMax}/>
+                <HoursInput morning={this.state.morning} afternoon={this.state.afternoon} handleInputMorning={this.handleInputMorning} handleInputAfternoon={this.handleInputAfternoon}/>
+              </tr>
+            </thead>
+            <tbody>
+              {this.displayForecast()}
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }
