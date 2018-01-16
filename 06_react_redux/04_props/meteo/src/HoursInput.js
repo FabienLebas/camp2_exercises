@@ -2,22 +2,24 @@ import React from 'react';
 
 function HoursInput(props) {
   return (
-    <div>
-    <td>
-      <div class="form-group">
-        <select class="form-control input" id="morning" onChange={() => launchMorning(props)}>
-          {displayMorning(props.morning)}
-        </select>
-      </div>
-    </td>
-    <td>
-      <div class="form-group">
-        <select class="form-control input" id="afternoon" onChange={() => launchAfternoon(props)}>
-          {displayAfternoon(props.afternoon)}
-        </select>
-      </div>
-    </td>
-    </div>
+      <tr>
+        <td></td>
+        <td></td>
+        <td>
+          <div class="form-group">
+            <select class="form-control input" id="morning" onChange={() => launchMorning(props)}>
+              {displayMorning(props.morning)}
+            </select>
+          </div>
+        </td>
+        <td>
+          <div class="form-group">
+            <select class="form-control input" id="afternoon" onChange={() => launchAfternoon(props)}>
+              {displayAfternoon(props.afternoon)}
+            </select>
+          </div>
+        </td>
+      </tr>
   )
 }
 

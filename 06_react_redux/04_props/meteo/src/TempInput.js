@@ -3,22 +3,22 @@ import React from 'react';
 function TempInput(props) {
   return (
     <div>
-    <td>
-      <div class="form-group">
-        <label>Température min</label>
-        <select class="form-control input" id="min" onChange={() => launchMin(props)}>
-          {displayMin(props.min)}
-        </select>
-      </div>
-    </td>
-    <td>
-      <div class="form-group">
-        <label>Température max</label>
-        <select class="form-control input" id="max" onChange={() => launchMax(props)}>
-          {displayMax(props.max)}
-        </select>
-      </div>
-    </td>
+      <tr>
+        <td className="form-group">Température min</td>
+        <td>
+          <select class="form-control input" id="min" onChange={() => launchMin(props)}>
+            {displayMin(props.min)}
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td className="form-group">Température max</td>
+        <td>
+          <select class="form-control input" id="max" onChange={() => launchMax(props)}>
+            {displayMax(props.max)}
+          </select>
+        </td>
+      </tr>
     </div>
   )
 }

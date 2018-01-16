@@ -6,8 +6,8 @@ import getCityName from './google.js';
 import HoursInput from './HoursInput.js';
 import TempInput from './TempInput.js';
 
-const latitude = 50.6410414;
-const longitude = 3.1380786;
+let latitude = 50.6410414;
+let longitude = 3.1380786;
 
 class App extends Component {
   constructor(props){
@@ -21,6 +21,33 @@ class App extends Component {
       current: "Loading current weather",
       forecast: "Loading weather forecast"
     }
+  }
+
+  displayGeolocMessage(){
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 30000,
+      maximumAge: 0
+    };
+    function success(pos) {
+      const crd = pos.coords;
+      latitude = crd.latitude;
+      longitude = crd.longitude;
+      console.log("coord : " + latitude + " - " + longitude);
+      return(
+        <p>Merci. Géolocalisation OK.
+        <br />Je débute le téléchargement de la météo.
+        </p>
+      );
+      //window.location = "/latitude/" + crd.latitude + "/longitude/" + crd.longitude;
+    };
+
+    function error(err) {
+      console.warn("ERROR(" + err.code + "): " + err.message);
+      document.getElementById("message").innerHTML = "Erreur. Voici le message.<br />Code erreur : " + err.code + "<br />Message : " + err.message + "<br /> Cliquez ici pour ré-essayer : <a href=\"https://bikeorcar.herokuapp.com\">https://bikeorcar.herokuapp.com</a><br />Sur iPhone, la géolocalisation s'active en allant dans Réglages / Confidentialité / Service de localisation / Safari";
+    };
+
+      navigator.geolocation.getCurrentPosition(success, error, options);
   }
 
   handleInputMorning = (input) => {
@@ -210,7 +237,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App jumbotron jumbotron-fluid">
+      <div className="App">
         <nav className="navbar navbar-dark bg-info">
           <a href="/whoweare.html">
             <span className="navbar-brand mb-0 h1">Bike or Car? <span className="beta">beta</span></span>
@@ -219,25 +246,32 @@ class App extends Component {
             <i className="fa fa-refresh" aria-hidden="true"></i>
           </a>
         </nav>
-        <div className="container">
+        {this.displayGeolocMessage()}
+        <div className="container jumbotron jumbotron-fluid">
           <h2 className="display-5 text-center font-weight-normal">{this.state.city}</h2>
-          <p className="text-center">description, vent x km/h de ...</p>
-          <h1 className="display-5 text-center font-weight-normal">{this.state.current}°</h1>
+          <p className="text-center">{this.state.current.weather}, vent {this.state.current.wind_kph} km/h de {this.state.current.wind_dir}</p>
+          <h1 className="display-5 text-center font-weight-normal">{this.state.current.temp_c}°</h1>
         </div>
         <div className="container">
           <table className="table">
             <thead>
-              <tr>
-                <td></td>
-                <TempInput min={this.state.tempmin} max={this.state.tempmax} handleInputTempMin={this.handleInputTempMin} handleInputTempMax={this.handleInputTempMax}/>
                 <HoursInput morning={this.state.morning} afternoon={this.state.afternoon} handleInputMorning={this.handleInputMorning} handleInputAfternoon={this.handleInputAfternoon}/>
-              </tr>
             </thead>
             <tbody>
               {this.displayForecast()}
             </tbody>
           </table>
         </div>
+        <hr/>
+        <div className="container">
+          <h2 className="display-5 text-center font-weight-normal">Paramètres</h2>
+          <table>
+            <tbody>
+              <TempInput min={this.state.tempmin} max={this.state.tempmax} handleInputTempMin={this.handleInputTempMin} handleInputTempMax={this.handleInputTempMax}/>
+            </tbody>
+          </table>
+        </div>
+
       </div>
     );
   }
