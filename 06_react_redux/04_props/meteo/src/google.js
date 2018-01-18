@@ -7,19 +7,19 @@ function getCityName(latitude, longitude){
       const today = new Date();
       const formattedDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
       const result={
-        city: returnedData.results[1].address_components[0].long_name,
+        city: filterCity(returnedData),
         country: returnedData.results[1].formatted_address.split(",")[1],
         date: formattedDate
       };
       return result;
     })
-    // .then(location => {
-    //   addToDatabaseLogs(location.city, location.country, location.date);
-    //   return location.city;
-    // })
     .catch(error => {
       console.warn("Google API error : " + error);
     })
+}
+
+function filterCity(googleResult){
+  return googleResult.results[0].address_components.filter(element => element.types[0] === "locality")[0].long_name;
 }
 
 export default getCityName;

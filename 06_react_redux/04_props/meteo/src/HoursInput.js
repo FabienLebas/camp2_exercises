@@ -6,15 +6,15 @@ function HoursInput(props) {
         <td></td>
         <td></td>
         <td>
-          <div class="form-group">
-            <select class="form-control input" id="morning" onChange={() => launchMorning(props)}>
+          <div className="form-group">
+            <select className="form-control input" id="morning" defaultValue={props.morning}  onChange={() => props.handleInputMorning(document.getElementById("morning").value)}>
               {displayMorning(props.morning)}
             </select>
           </div>
         </td>
         <td>
-          <div class="form-group">
-            <select class="form-control input" id="afternoon" onChange={() => launchAfternoon(props)}>
+          <div className="form-group">
+            <select className="form-control input" id="afternoon" defaultValue={props.afternoon} onChange={() => props.handleInputAfternoon(document.getElementById("afternoon").value)}>
               {displayAfternoon(props.afternoon)}
             </select>
           </div>
@@ -23,41 +23,19 @@ function HoursInput(props) {
   )
 }
 
-function launchMorning(props){
-  const myValue = document.getElementById("morning").value;
-  {props.handleInputMorning(myValue)};
-}
-
-function launchAfternoon(props){
-  const myValue = document.getElementById("afternoon").value;
-  {props.handleInputAfternoon(myValue)};
-}
-
 function displayMorning(selected){
-  return ["5", "6", "7", "8", "9", "10", "11", "12"].map(hour => {
-    if(hour !== selected){
+  return ["5", "6", "7", "8", "9", "10", "11", "12"].map((hour, index) => {
       return(
-        <option value={hour}>{hour}h</option>
+        <option value={hour} key={index}>{hour}h</option>
       )
-    } else {
-      return(
-        <option value={hour} selected>{hour}h</option>
-      )
-    }
   })
 }
 
 function displayAfternoon(selected){
-  return ["13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"].map(hour => {
-    if(hour !== selected){
+  return ["13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"].map((hour, index) => {
       return(
-        <option value={hour}>{hour}h</option>
+        <option value={hour} key={index}>{hour}h</option>
       )
-    } else {
-      return(
-        <option value={hour} selected>{hour}h</option>
-      )
-    }
   })
 }
 

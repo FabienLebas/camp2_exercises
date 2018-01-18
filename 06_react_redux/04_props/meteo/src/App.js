@@ -1,244 +1,35 @@
 import React, { Component } from 'react';
+import {
+  BrowserRouter as Router,
+  Route
+} from 'react-router-dom';
 import './App.css';
-import getWeatherForecastFromCoordinates from './forecast.js';
-import getCurrentWeatherFromCoordinates from './current.js'
-import getCityName from './google.js';
-import HoursInput from './HoursInput.js';
-import TempInput from './TempInput.js';
-
-let latitude = 48.864716; //50.6410414
-let longitude = 2.349014; //3.1380786
+import Weather from './Weather';
+import Home from './Home';
+import FindCity from './FindCity';
 
 class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      latitude: 48.864716,
-      longitude: 2.349014,
       morning: "8",
       afternoon: "18",
       tempmin: 3,
       tempmax: 27,
-      city: "Loading your location",
       current: "Loading current weather",
       forecast: "Loading weather forecast"
     }
   }
 
-  displayGeolocMessage(){
-    const options = {
-      enableHighAccuracy: true,
-      timeout: 30000,
-      maximumAge: 0
-    };
-    function success(pos) {
-      const crd = pos.coords;
-      // latitude = crd.latitude;
-      // longitude = crd.longitude;
-      console.log("coord : " + latitude + " - " + longitude);
-      return(
-        <p>Merci. Géolocalisation OK.
-        <br />Je débute le téléchargement de la météo.
-        </p>
-      );
-      this.setState({
-        ...this.state,
-        latitude: crd.latitude,
-        longitude : crd.longitude
-      });
-      //window.location = "/latitude/" + crd.latitude + "/longitude/" + crd.longitude;
-    };
-
-    function error(err) {
-      console.warn("ERROR(" + err.code + "): " + err.message);
-      document.getElementById("message").innerHTML = "Erreur. Voici le message.<br />Code erreur : " + err.code + "<br />Message : " + err.message + "<br /> Cliquez ici pour ré-essayer : <a href=\"https://bikeorcar.herokuapp.com\">https://bikeorcar.herokuapp.com</a><br />Sur iPhone, la géolocalisation s'active en allant dans Réglages / Confidentialité / Service de localisation / Safari";
-    };
-
-    navigator.geolocation.getCurrentPosition(success, error, options);
-  }
-
-  handleInputMorning = (input) => {
-    console.log("coucou");
-    this.setState({
-      ...this.state,
-      morning: input
-    });
-  }
-
-  handleInputAfternoon = (input) => {
-    this.setState({
-      ...this.state,
-      afternoon: input
-    });
-  }
-
-  handleInputTempMin = (input) => {
-    this.setState({
-      ...this.state,
-      tempmin: input
-    });
-  }
-
-  handleInputTempMax = (input) => {
-    this.setState({
-      ...this.state,
-      tempmax:input
-    });
-  }
-
-  componentDidMount(){
-    getCityName(this.state.latitude, this.state.longitude)
-      .then(returnedCity => {
-        this.setState({
-          ...this.state,
-          city: returnedCity.city
-        })
-      });
-    getCurrentWeatherFromCoordinates(this.state.latitude, this.state.longitude)
-      .then(currentWeather => {
-        this.setState({
-          ...this.state,
-          current: currentWeather
-        })
-      })
-    getWeatherForecastFromCoordinates(this.state.latitude, this.state.longitude, this.state.morning, this.state.afternoon)
-      .then(forecastResult => {
-        this.setState({
-          ...this.state,
-          forecast: forecastResult
-        })
-      });
-  }
-
-  filter1Day(dayNumber, forecast){
-    return forecast.filter(element => element.FCTTIME.mday === dayNumber);
-  }
-
-  daysInside(forecast){
-    const notUniques = forecast.map(element => element.FCTTIME.mday);
-    let uniques = [];
-    for (let i=0; i < notUniques.length; i++){
-      if(!uniques.includes(notUniques[i])){
-        uniques.push(notUniques[i]);
-      }
-    }
-    return uniques;
-  }
-
-  displayRow(weekday_name, morningTemp, morningIcon, afternoonTemp, afternoonIcon, bikeIcon){
-    return (
-      <tr>
-        <td scope="row">{weekday_name}</td>
-        <td><img class="card-img-top decisionImage" src={bikeIcon} alt="Bike image cap"/></td>
-        <td>{morningTemp}°<br/>
-            <img class="card-img-top icon" src={morningIcon} alt="Morning Weather icon" />
-        </td>
-        <td>{afternoonTemp}°<br/>
-            <img class="card-img-top icon" src={afternoonIcon} alt="Afternoon Weather icon" />
-        </td>
-      </tr>
-    )
-  }
-
-  filterHours(forecast){
-    return forecast.filter(hourForecast => hourForecast.FCTTIME.hour === this.state.morning || hourForecast.FCTTIME.hour === this.state.afternoon );
-  }
-
-  removeLastDayIfNotFull(forecast){
-    if(forecast[forecast.length - 1].FCTTIME.mday !== forecast[forecast.length - 2].FCTTIME.mday){
-      forecast.pop();
-    }
-    return forecast;
-  }
-
-  removeFirstDayIfNotFull(forecast){
-    if(forecast[0].FCTTIME.mday !== forecast[1].FCTTIME.mday){
-      forecast.shift();
-    }
-    return forecast;
-  }
-
-  tomorrowOrToday(weekday){
-    const today = new Date();
-    const day = today.getDay();
-    const testDays = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
-    if(weekday === testDays[day]){
-      return "aujourd'hui";
-    } else if (weekday === testDays[day + 1]){
-      return "demain";
-    } else {
-    return weekday;
-    }
-  }
-
-  displayForecast(){
-    if(this.state.forecast === "Loading weather forecast"){
-      return(
-        <tr><td scope="row">{this.state.forecast}</td></tr>
-      )
-    } else {
-      let result = this.filterHours(this.state.forecast);
-      result = this.removeLastDayIfNotFull(result);
-      result = this.removeFirstDayIfNotFull(result);
-      return this.daysInside(result).map(dayNumber => {
-        const currentDay = this.filter1Day(dayNumber, result);
-        return this.displayRow(this.tomorrowOrToday(currentDay[0].FCTTIME.weekday_name), currentDay[0].temp.metric, currentDay[0].icon_url, currentDay[1].temp.metric, currentDay[1].icon_url, this.decideIfBike(currentDay[0], currentDay[1]));
-      }
-      )
-    }
-  }
-
-  decideIfBike(dataMorning, dataAfternoon){
-    if(dataMorning.fctcode < 8 &&
-       dataAfternoon.fctcode < 8 &&
-       dataMorning.temp.metric >= this.state.tempmin &&
-       dataAfternoon.temp.metric >=this.state.tempmin &&
-       dataMorning.temp.metric <= this.state.tempmax &&
-       dataAfternoon.temp.metric <= this.state.tempmax
-      ){
-      return "http://www.atelierjespers.com/images/pharrell%20williams%20-%20velo%20bleu.jpg";
-    }
-    return "http://www2.mes-coloriages-preferes.biz/colorino/Images/Large/Vehicules-Voiture-MINI-110563.png";
-  }
-
   render() {
     return (
-      <div className="App">
-        <nav className="navbar navbar-dark bg-info">
-          <a href="/whoweare.html">
-            <span className="navbar-brand mb-0 h1">Bike or Car? <span className="beta">beta</span></span>
-          </a>
-          <a href="/">
-            <i className="fa fa-refresh" aria-hidden="true"></i>
-          </a>
-        </nav>
-        {this.displayGeolocMessage()}
-        <div className="container jumbotron jumbotron-fluid">
-          <h2 className="display-5 text-center font-weight-normal">{this.state.city}</h2>
-          <p className="text-center">{this.state.current.weather}, vent {Math.round(this.state.current.wind_kph)} km/h de {this.state.current.wind_dir}</p>
-          <h1 className="display-5 text-center font-weight-normal">{Math.round(this.state.current.temp_c)}°</h1>
+      <Router>
+        <div className="App">
+          <Route exact path="/" render={() => <Home />}/>
+          <Route path="/findCity/:latitude/:longitude" render={(routerProps) => <FindCity {...routerProps}/>}/>
+          <Route path="/:city/:latitude/:longitude" render={(routerProps) => <Weather {...routerProps}/>}/>
         </div>
-        <div className="container">
-          <table className="table">
-            <thead>
-                <HoursInput morning={this.state.morning} afternoon={this.state.afternoon} handleInputMorning={this.handleInputMorning} handleInputAfternoon={this.handleInputAfternoon}/>
-            </thead>
-            <tbody>
-              {this.displayForecast()}
-            </tbody>
-          </table>
-        </div>
-        <hr/>
-        <div className="container">
-          <h2 className="display-5 text-center font-weight-normal">Paramètres</h2>
-          <table>
-            <tbody>
-              <TempInput min={this.state.tempmin} max={this.state.tempmax} handleInputTempMin={this.handleInputTempMin} handleInputTempMax={this.handleInputTempMax}/>
-            </tbody>
-          </table>
-        </div>
-
-      </div>
+      </Router>
     );
   }
 }
