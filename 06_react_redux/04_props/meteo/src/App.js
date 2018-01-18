@@ -6,13 +6,15 @@ import getCityName from './google.js';
 import HoursInput from './HoursInput.js';
 import TempInput from './TempInput.js';
 
-let latitude = 50.6410414;
-let longitude = 3.1380786;
+let latitude = 48.864716; //50.6410414
+let longitude = 2.349014; //3.1380786
 
 class App extends Component {
   constructor(props){
     super(props);
     this.state = {
+      latitude: 48.864716,
+      longitude: 2.349014,
       morning: "8",
       afternoon: "18",
       tempmin: 3,
@@ -31,14 +33,19 @@ class App extends Component {
     };
     function success(pos) {
       const crd = pos.coords;
-      latitude = crd.latitude;
-      longitude = crd.longitude;
+      // latitude = crd.latitude;
+      // longitude = crd.longitude;
       console.log("coord : " + latitude + " - " + longitude);
       return(
         <p>Merci. Géolocalisation OK.
         <br />Je débute le téléchargement de la météo.
         </p>
       );
+      this.setState({
+        ...this.state,
+        latitude: crd.latitude,
+        longitude : crd.longitude
+      });
       //window.location = "/latitude/" + crd.latitude + "/longitude/" + crd.longitude;
     };
 
@@ -47,98 +54,57 @@ class App extends Component {
       document.getElementById("message").innerHTML = "Erreur. Voici le message.<br />Code erreur : " + err.code + "<br />Message : " + err.message + "<br /> Cliquez ici pour ré-essayer : <a href=\"https://bikeorcar.herokuapp.com\">https://bikeorcar.herokuapp.com</a><br />Sur iPhone, la géolocalisation s'active en allant dans Réglages / Confidentialité / Service de localisation / Safari";
     };
 
-      navigator.geolocation.getCurrentPosition(success, error, options);
+    navigator.geolocation.getCurrentPosition(success, error, options);
   }
 
   handleInputMorning = (input) => {
+    console.log("coucou");
     this.setState({
-      morning: input,
-      afternoon: this.state.afternoon,
-      tempmin: this.state.tempmin,
-      tempmax: this.state.tempmax,
-      city: this.state.city,
-      current: this.state.current,
-      forecast: this.state.forecast
+      ...this.state,
+      morning: input
     });
   }
 
   handleInputAfternoon = (input) => {
     this.setState({
-      morning: this.state.morning,
-      afternoon: input,
-      tempmin: this.state.tempmin,
-      tempmax: this.state.tempmax,
-      city: this.state.city,
-      current: this.state.current,
-      forecast: this.state.forecast
+      ...this.state,
+      afternoon: input
     });
   }
 
   handleInputTempMin = (input) => {
     this.setState({
-      morning: this.state.morning,
-      afternoon: this.state.afternoon,
-      tempmin: input,
-      tempmax:this.state.tempmax,
-      city: this.state.city,
-      current: this.state.current,
-      forecast: this.state.forecast
+      ...this.state,
+      tempmin: input
     });
   }
 
   handleInputTempMax = (input) => {
     this.setState({
-      morning: this.state.morning,
-      afternoon: this.state.afternoon,
-      tempmin: this.state.tempmin,
-      tempmax:input,
-      city: this.state.city,
-      current: this.state.current,
-      forecast: this.state.forecast
+      ...this.state,
+      tempmax:input
     });
   }
 
   componentDidMount(){
-    getCityName(latitude, longitude)
+    getCityName(this.state.latitude, this.state.longitude)
       .then(returnedCity => {
         this.setState({
-          morning: this.state.morning,
-          afternoon: this.state.afternoon,
-          tempmin: this.state.tempmin,
-          tempmax: this.state.tempmax,
-          city: returnedCity.city,
-          current: this.state.current,
-          forecast: this.state.forecast
+          ...this.state,
+          city: returnedCity.city
         })
       });
-    getCurrentWeatherFromCoordinates(latitude, longitude)
+    getCurrentWeatherFromCoordinates(this.state.latitude, this.state.longitude)
       .then(currentWeather => {
         this.setState({
-          morning: this.state.morning,
-          afternoon: this.state.afternoon,
-          tempmin: this.state.tempmin,
-          tempmax: this.state.tempmax,
-          city: this.state.city,
-          current: currentWeather,
-          forecast: this.state.forecast
+          ...this.state,
+          current: currentWeather
         })
       })
-    getWeatherForecastFromCoordinates(latitude, longitude, this.state.morning, this.state.afternoon)
+    getWeatherForecastFromCoordinates(this.state.latitude, this.state.longitude, this.state.morning, this.state.afternoon)
       .then(forecastResult => {
-        console.log("Initial");
-        console.log(forecastResult.map(element => {
-          return {
-            time: element.FCTTIME.pretty,
-            temp: element.temp.metric
-          }
-        } ));
         this.setState({
-          morning: this.state.morning,
-          afternoon: this.state.afternoon,
-          tempmin: this.state.tempmin,
-          tempmax: this.state.tempmax,
-          city: this.state.city,
-          current: this.state.current,
+          ...this.state,
           forecast: forecastResult
         })
       });
@@ -249,8 +215,8 @@ class App extends Component {
         {this.displayGeolocMessage()}
         <div className="container jumbotron jumbotron-fluid">
           <h2 className="display-5 text-center font-weight-normal">{this.state.city}</h2>
-          <p className="text-center">{this.state.current.weather}, vent {this.state.current.wind_kph} km/h de {this.state.current.wind_dir}</p>
-          <h1 className="display-5 text-center font-weight-normal">{this.state.current.temp_c}°</h1>
+          <p className="text-center">{this.state.current.weather}, vent {Math.round(this.state.current.wind_kph)} km/h de {this.state.current.wind_dir}</p>
+          <h1 className="display-5 text-center font-weight-normal">{Math.round(this.state.current.temp_c)}°</h1>
         </div>
         <div className="container">
           <table className="table">
