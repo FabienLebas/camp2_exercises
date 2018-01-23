@@ -1,0 +1,126 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+.App {
+  text-align: center;
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+  align-items: stretch;
+  align-content: stretch;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 100px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.Login {
+  padding: 20px;
+}
+
+.Login div {
+  padding: 20px;
+}
+
+.Chat {
+  flex: 2 1;
+  display:flex;
+  flex-flow: row;
+  max-height: calc(100vh - 100px)
+}
+
+.Channels {
+  flex: 1 1 70px;
+  display: flex;
+  flex-flow: column;
+  border-right: 1px solid #ccc;
+}
+
+.Channels a {
+  text-align: center;
+  color: black;
+  padding: 5px;
+  text-decoration: none;
+}
+
+.Channels a.active {
+  font-weight: bold;
+  background-color: #eee;
+}
+
+.Channel {
+  flex: 5 1;
+  display:flex;
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: stretch;
+  align-content: stretch;
+  max-height: calc(100vh - 50px)
+}
+
+.Chat-messages {
+  flex: 1 1 auto;
+  overflow: auto;
+  max-height: calc(100% - 50px)
+}
+
+.Chat-form {
+  height: 50px;
+  background: #ccc;
+  display: flex;
+}
+.Chat-form form {
+  display: flex;
+  width: 100%;
+}
+
+.Chat-form input {
+  flex: 1 0;
+}
+
+.Chat-form button {
+  height: 100%;
+  margin: 0;
+  padding: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  -webkit-appearance: none;
+}
+
+.message-container {
+  width: 80%;
+  text-align: left;
+}
+
+.author {
+  font-weight: bold;
+  padding: 5px 10px;
+}
